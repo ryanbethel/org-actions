@@ -1,0 +1,20 @@
+name: Log latest release
+on:
+  schedule:
+    - (0 6 * * 0-6)
+  workflow_dispatch:
+    
+
+jobs:
+  logLatestRelease:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: octokit/request-action@v2.x
+        id: public_repos_not_registered
+        with:
+          route: GET /orgs/{owner}/repos
+          owner: begin-examples
+          query: q=in:.github/workflows/smoke-test.yml+private:false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo Repos Not Registered: ${{ steps.public_repos_not_registered.outputs.data }}"
