@@ -1,0 +1,35 @@
+name: Workflow Sync
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  DRY_RUN: true
+  PULL_REQUEST: false
+  SKIP_CI: false
+  COMMIT_MESSAGE: "smoke-test workflow syncronized"
+  WORKFLOW_FILES: |
+    workflow-templates/smoke-test-template.yml=.github/workflows/smoke-tests.yml
+  
+  #Repositories registered with the smoke test automation
+  REPOSITORIES: |
+    ryanbethel/node-hello-world
+  
+
+jobs:
+  Github_Workflow_Sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetching Local Repository
+        uses: actions/checkout@main
+        
+      - name: Running Workflow Sync
+        uses: varunsridharan/action-github-workflow-sync@main
+        with:
+          DRY_RUN: ${{ env.DRY_RUN }}
+          REPOSITORIES: ${{ env.REPOSITORIES }}
+          WORKFLOW_FILES: ${{ env.WORKFLOW_FILES }}
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_SYNC_PERSONAL_ACCESS_TOKEN }}
