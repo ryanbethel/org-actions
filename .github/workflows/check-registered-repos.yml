@@ -1,8 +1,15 @@
-name: Log latest release
+name: Find Unregistered Examples
 on:
   schedule:
     - cron: '0 6 * * 0-6'
   workflow_dispatch:
+  push:
+    branches: 
+      - main
+  pull_request:
+    branches:
+      - main
+  
     
 
 jobs:
@@ -12,9 +19,9 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: public_repos_not_registered
         with:
-          route: GET /orgs/{owner}/repos?{query}
+          route: GET /orgs/{owner}/repos
           owner: begin-examples
-          query: q=in:.github/workflows/smoke-test.yml+private:false
+          type: public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo Repos Not Registered: ${{ steps.public_repos_not_registered.outputs.data }}"
