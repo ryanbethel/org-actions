@@ -1,7 +1,7 @@
 name: Log latest release
 on:
   schedule:
-    - (0 6 * * 0-6)
+    - cron: '0 6 * * 0-6'
   workflow_dispatch:
     
 
@@ -12,7 +12,7 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: public_repos_not_registered
         with:
-          route: GET /orgs/{owner}/repos
+          route: GET /orgs/{owner}/repos?{query}
           owner: begin-examples
           query: q=in:.github/workflows/smoke-test.yml+private:false
         env:
