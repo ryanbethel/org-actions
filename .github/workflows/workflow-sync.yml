@@ -10,7 +10,7 @@ env:
   DRY_RUN: false
   PULL_REQUEST: false
   SKIP_CI: false
-  COMMIT_MESSAGE: "smoke-test workflow syncronized"
+  COMMIT_MESSAGE: "smoke-test workflow synchronized"
   WORKFLOW_FILES: |
     workflow-templates/smoke-test-template.yml=.github/workflows/smoke-tests.yml
   
