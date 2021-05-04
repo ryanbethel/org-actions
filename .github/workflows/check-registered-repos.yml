@@ -30,7 +30,7 @@ jobs:
         
       - run: cat public_repos.json
       
-      - uses: fabasoad/yaml-json-xml-converter-action@v1.0.x
+      - uses: fabasoad/yaml-json-xml-converter-action@main
         id: yaml2json
         with:
           path: '.github/workflows/sync-integration.yml'
