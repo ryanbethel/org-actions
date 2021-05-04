@@ -36,7 +36,8 @@ jobs:
         with:
           file: .github/workflows/sync-integration.yml
           registered: env.REPOSITORIES
-        run: "echo ${env.registered} >> registered_repos.txt"
+        
+      - run: "echo ${{steps.find_registered_repos.outputs.registered}} >> registered_repos.txt"
       
       - run: cat registered_repos.txt
         
