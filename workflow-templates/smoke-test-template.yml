@@ -98,9 +98,6 @@ jobs:
             - name: Install Test Dependencies
               run: npm i tape tap-spec tiny-json-http @architect/sandbox
 
-            - name: Hydrate
-              run: npx arc hydrate
-              
             - name: Run Sandbox Tests
               run: QUIET=1 npx tape .github/workflows/smoke-tests/sandbox/**-test.js | npx tap-spec
               
@@ -151,9 +148,6 @@ jobs:
             - name: Install Test Dependencies
               run: npm i tape tap-spec tiny-json-http
 
-            - name: Hydrate
-              run: npx arc hydrate
-              
             - name: Deploy Staging 
               env:
                 AWS_ACCESS_KEY_ID: ${{ secrets.BX_AWS_ACCESS_KEY_ID }}

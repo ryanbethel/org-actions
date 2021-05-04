@@ -4,7 +4,7 @@ const sandbox = require("@architect/sandbox");
 
 const baseUrl = "http://localhost:3333";
 
-// this starts a sandbox environment for the tests to excecute in.
+// this starts a sandbox environment for the tests to execute in.
 test("start", async (t) => {
     t.plan(1);
     await sandbox.start();
