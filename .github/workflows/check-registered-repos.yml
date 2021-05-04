@@ -25,6 +25,15 @@ jobs:
           type: public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: create-json
+        id: create-json-1 # First ID
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "public_repos.json"
+          json: ${{ steps.public_repos_not_registered.outputs.data }}
+
+      - run: cat public_repos.json
         
       - uses: DamianReeves/write-file-action@v1.0
         with:
