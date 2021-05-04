@@ -29,13 +29,6 @@ jobs:
       - run: "echo ${{ steps.public_repos_not_registered.outputs.data }} >> public_repos.json"
         
       - run: cat public_repos.json
-
-      - name: Find Registered Repos
-        id: find_registered_repos
-        uses: cumulusds@v0.1.0
-        with:
-          file: .github/workflows/sync-integration.yml
-          registered: env.REPOSITORIES
       
       - uses: fabasoad/yaml-json-xml-converter-action@v1.0.x
         id: yaml2json
