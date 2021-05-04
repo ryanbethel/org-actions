@@ -36,8 +36,15 @@ jobs:
         with:
           file: .github/workflows/sync-integration.yml
           registered: env.REPOSITORIES
-        
-      - run: "echo ${env.registered} >> registered_repos.txt"
       
-      - run: cat registered_repos.txt
+      - uses: fabasoad/yaml-json-xml-converter-action@v1.0.x
+        id: yaml2json
+        with:
+          path: '.github/workflows/sync-integration.yml'
+          from: 'yaml'
+          to: 'json'
+        
+      - run: "echo ${{steps.yaml2json.output.data}} >> sync-integration.json"
+      
+      - run: cat sync-integration.json
         
