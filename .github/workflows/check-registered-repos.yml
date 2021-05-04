@@ -13,7 +13,7 @@ on:
     
 
 jobs:
-  logLatestRelease:
+  findUnregisteredRepos:
     runs-on: ubuntu-latest
     steps:
       - name: Find All Public Repos
@@ -21,7 +21,7 @@ jobs:
         id: public_repos_not_registered
         with:
           route: GET /orgs/{owner}/repos
-          owner: ryanbethel
+          owner: begin-examples
           type: public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -36,8 +36,7 @@ jobs:
         with:
           file: .github/workflows/sync-integration.yml
           registered: env.REPOSITORIES
-        
-      - run: "echo ${{steps.find_registered_repos.outputs.registered}} >> registered_repos.txt"
+        run: "echo ${env.registered} >> registered_repos.txt"
       
       - run: cat registered_repos.txt
         
