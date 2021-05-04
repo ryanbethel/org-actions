@@ -25,10 +25,13 @@ jobs:
           type: public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - run: echo ${{ steps.public_repos_not_registered.outputs.data }} > public_repos.json
         
-      - run: cat public_repos.json
+      - uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: public_repos.json
+          contents: |
+            echo "${{ steps.public_repos_not_registered.outputs.data }}"
+          write-mode: overwrite
       
       - uses: fabasoad/yaml-json-xml-converter-action@main
         id: yaml2json
@@ -37,7 +40,9 @@ jobs:
           from: 'yaml'
           to: 'json'
         
-      - run: echo ${{steps.yaml2json.output.data}} > sync-integration.json
-      
-      - run: cat sync-integration.json
-        
+      - uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: sync-integration.json
+          contents: |
+            echo "$${{ steps.yaml2json.output.data }}"
+          write-mode: overwrite
