@@ -23,7 +23,11 @@ jobs:
           path: ".github/workflows/sync-integration-workflow.yml"
           from: "yaml"
           to: "json"
+          
+      - run: echo "${{fromJson(steps.yaml2json.output.data)}}"
 
+      - run: echo "${{steps.yaml2json.output.data}}" >> registered-repos.txt
+      - run: echo "${{fromJson(steps.yaml2json.output.data)}}" >> registered-repos.txt
       - run: echo "${{fromJson(steps.yaml2json.output.data.env.REPOSITORIES)}}" >> registered-repos.txt
         
       - run: echo "UNREGISTERED_REPOS=$(node scripts/find-unregistered-repos.js) >> $GITHUB_ENV

@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  DRY_RUN: false
+  DRY_RUN: true
   PULL_REQUEST: false
   SKIP_CI: false
   COMMIT_MESSAGE: "smoke-test workflow synchronized"
