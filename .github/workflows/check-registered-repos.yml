@@ -10,48 +10,36 @@ on:
     branches:
       - main
   
-    
-
 jobs:
   findUnregisteredRepos:
     runs-on: ubuntu-latest
     steps:
-      - name: Find All Public Repos
-        uses: octokit/request-action@v2.x
-        id: public_repos_not_registered
-        with:
-          route: GET /orgs/{owner}/repos
-          owner: begin-examples
-          type: public
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: create-json
-        id: create-json-1 # First ID
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: "public_repos.json"
-          json: ${{ steps.public_repos_not_registered.outputs.data }}
-
-      - run: cat public_repos.json
-        
-      - uses: DamianReeves/write-file-action@v1.0
-        with:
-          path: public_repos.json
-          contents: |
-            echo "${{ steps.public_repos_not_registered.outputs.data }}"
-          write-mode: overwrite
-      
       - uses: fabasoad/yaml-json-xml-converter-action@main
         id: yaml2json
         with:
-          path: '.github/workflows/sync-integration.yml'
-          from: 'yaml'
-          to: 'json'
+          path: ".github/workflows/sync-integration-workflow.yml"
+          from: "yaml"
+          to: "json"
+
+      - run: echo "${{fromJson(steps.yaml2json.output.data.env.REPOSITORIES)}}" >> registered-repos.txt
         
-      - uses: DamianReeves/write-file-action@v1.0
+      - run: echo "UNREGISTERED_REPOS=$(node scripts/find-unregistered-repos.js) >> $GITHUB_ENV
+
+      - name: Notify
+        uses: lazy-action/slatify@master
+        if: github.ref == 'refs/heads/main' && ${env.UNREGISTERED_REPOS}
         with:
-          path: sync-integration.json
-          contents: |
-            echo "$${{ steps.yaml2json.output.data }}"
-          write-mode: overwrite
+          type: ${{ job.status }}
+          job_name: "*Unregistered Public Repos*"
+          url: ${{ secrets.BX_SLACK_WEBHOOK }}
+          commit: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'green' or '#ff00ff'
+          SLACK_MESSAGE: "${env.UNREGISTERED_REPOS"
+          SLACK_TITLE: "*Unregistered Public Repos*"
+          SLACK_WEBHOOK: ${{ secrets.BX_SLACK_WEBHOOK }}
+        
