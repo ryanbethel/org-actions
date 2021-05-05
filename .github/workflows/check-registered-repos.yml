@@ -35,7 +35,7 @@ jobs:
         run: "echo '{{$(node scripts/find-unregistered-repos.js)}}' | tee unregistered-repos.txt "
 
       - name: Count Unregistered
-        run: echo "count_unregistered=${{(cat unregistered-repos.txt | wc -l)}} >> $(GITHUB_ENV)
+        run: echo "count_unregistered=$(cat unregistered-repos.txt | wc -l) >> $(GITHUB_ENV)
 
       - name: Notify
         uses: lazy-actions/slatify@master
