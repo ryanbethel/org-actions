@@ -14,6 +14,9 @@ jobs:
   findUnregisteredRepos:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repo
+        uses: actions/checkout@v1
+        
       - uses: fabasoad/yaml-json-xml-converter-action@main
         id: yaml2json
         with:
