@@ -25,6 +25,8 @@ jobs:
           to: "json"
           
 
+      - run: echo "${{steps.yaml2json.outputs.data}}" 
+
       - run: echo "${{fromJson(steps.yaml2json.outputs.data.env.REPOSITORIES)}}" >> registered-repos.txt
         
       - run: echo "UNREGISTERED_REPOS=$(node scripts/find-unregistered-repos.js) >> $GITHUB_ENV
