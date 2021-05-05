@@ -26,7 +26,7 @@ jobs:
       - run: echo "UNREGISTERED_REPOS=$(node scripts/find-unregistered-repos.js) >> $GITHUB_ENV
 
       - name: Notify
-        uses: lazy-action/slatify@master
+        uses: lazy-actions/slatify@master
         if: github.ref == 'refs/heads/main' && ${{env.UNREGISTERED_REPOS}}
         with:
           type: ${{ job.status }}
