@@ -25,7 +25,7 @@ jobs:
           to: "json"
           
 
-      - run: echo "${{steps.yaml2json.output.data}}" 
+      - run: echo "${{steps.yaml2json.output}}" 
       - run: echo "${{fromJson(steps.yaml2json.output.data)}}" 
       - run: echo "${{fromJson(steps.yaml2json.output.data.env.REPOSITORIES)}}" 
       - run: echo "${{fromJson(steps.yaml2json.output.data.env.REPOSITORIES)}}" >> registered-repos.txt
