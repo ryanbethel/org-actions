@@ -35,7 +35,7 @@ jobs:
         run: node scripts/find-unregistered-repos.js | tee unregistered-repos.txt 
 
       - name: Count Unregistered
-        run: echo "count_unregistered=$(cat unregistered-repos.txt | wc -l)" >> $GITHUB_ENV
+        run: echo "count_unregistered=$(cat unregistered-repos.txt | wc -l)" | tee $GITHUB_ENV
 
       - name: Notify
         uses: lazy-actions/slatify@master
@@ -43,7 +43,7 @@ jobs:
         with:
           type: ${{ job.status }}
           job_name: "*There are ${{env.count_unregistered}} unregistered repos*"
-          url: ${{ secrets.BX_SLACK_WEBHOOK }}
+          url: ${{ secrets.SLACK_WEBHOOK }}
           commit: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
