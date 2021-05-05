@@ -26,7 +26,7 @@ jobs:
 
       - run: echo "${{fromJson(steps.yaml2json.outputs.data).env.REPOSITORIES}}" >> registered-repos.txt
         
-      - run: echo "UNREGISTERED_REPOS=$(node scripts/find-unregistered-repos.js) >> $GITHUB_ENV
+      - run: echo "UNREGISTERED_REPOS=$(node scripts/find-unregistered-repos.js)" >> $GITHUB_ENV
 
       - name: Notify
         uses: lazy-actions/slatify@master
